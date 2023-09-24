@@ -1,3 +1,4 @@
 #!/bin/bash
-yum -y update
-hostname ansible
+sudo yum -y update
+sudo hostname ansible
+mkdir /home/ec2-user
