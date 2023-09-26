@@ -1,0 +1,69 @@
+---
+- name: Install HAProxy
+  hosts: haproxy_server
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install HAProxy
+      apt:
+        name: haproxy
+        state: present
+
+    - name: Enable and start HAProxy service
+      systemd:
+        name: haproxy
+        enabled: yes
+        state: started
+
+    - name: Copy haproxy config
+      template:
+        src: haproxy.cfg
+        dest: /etc/haproxy/haproxy.cfg
+
+
+- name: Install Apache
+  hosts: web
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Enable and start Apache service
+      systemd:
+        name: apache2
+        enabled: yes
+        state: started
+
+    - name: Copy index.html with hostname
+      template:
+        src: index.html.j2
+        dest: /var/www/html/index.html
+
+
+
+- name: Apache service is restarted
+  hosts: web
+  become: yes
+  tasks:
+    - name: Restart Apache service
+      systemd:
+        name: apache2
+        state: restarted
+
+- name: Haproxy service is restarted
+  hosts: haproxy_server
+  become: yes
+  tasks:
+    - name: Restart Haproxy service
+      systemd:
+        name: haproxy
+        state: restarted
