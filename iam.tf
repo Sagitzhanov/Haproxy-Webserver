@@ -1,3 +1,4 @@
+# IAM role and policy for copy files from S3
 resource "aws_iam_policy" "bucket_policy" {
   name        = "my-bucket-policy"
   path        = "/"
@@ -24,6 +25,7 @@ resource "aws_iam_policy" "bucket_policy" {
   })
 }
 
+
 resource "aws_iam_role" "s3_full_role" {
   name = "s3_full_role"
 
@@ -42,15 +44,18 @@ resource "aws_iam_role" "s3_full_role" {
   })
 }
 
+
 resource "aws_iam_role_policy_attachment" "iam_bucket_policy" {
   role       = aws_iam_role.s3_full_role.name
   policy_arn = aws_iam_policy.bucket_policy.arn
 }
 
+
 resource "aws_iam_role_policy_attachment" "cloud_watch_policy" {
   role       = aws_iam_role.s3_full_role.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
+
 
 resource "aws_iam_instance_profile" "iam_profile" {
   name = "iam-profile"

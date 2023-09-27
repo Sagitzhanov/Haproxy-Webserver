@@ -13,13 +13,13 @@ resource "aws_security_group" "sg_haproxy" {
     }
   }
 
-  # temp sg ingress
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  # # access ssh connection
+  # ingress {
+  #   from_port   = 22
+  #   to_port     = 22
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
 
   # ICMP allow from anywhere
   ingress {

@@ -1,4 +1,4 @@
-# Создание бакета
+# Create a bucket
 resource "aws_s3_bucket" "s-s-bucket" {
   bucket = "s3-s-s-bucket"
 
@@ -16,7 +16,7 @@ resource "aws_s3_bucket_ownership_controls" "my_bucket_ownership" {
 }
 
 
-# Приватный бакет
+# Private bucket
 resource "aws_s3_bucket_acl" "my_bucket_acl" {
   depends_on = [aws_s3_bucket_ownership_controls.my_bucket_ownership]
   bucket     = aws_s3_bucket.s-s-bucket.id
@@ -26,7 +26,7 @@ resource "aws_s3_bucket_acl" "my_bucket_acl" {
 
 
 
-# Загрузка объекта
+# Upload objects
 resource "aws_s3_object" "object1" {
   bucket = aws_s3_bucket.s-s-bucket.id
   key    = "hosts.txt"
